@@ -1,0 +1,28 @@
+app:
+  name: 'clean-gin-template'
+  version: '1.0.0'
+
+http:
+  port: '8080'
+
+my_log:
+  log_level: 'debug'
+  rollbar_env: 'clean-gin-template'
+
+postgres:
+  pool_max: 2
+
+rabbitmq:
+  rpc_server_exchange: 'rpc_server'
+  rpc_client_exchange: 'rpc_client'
+
+database:
+  type: mysql
+  host: localhost
+  pool_max: 2
+  port: 3306
+  # embedded in k8s secrets
+  user: root
+  pass: password
+  name: movie
+  location: Asia/Seoul
