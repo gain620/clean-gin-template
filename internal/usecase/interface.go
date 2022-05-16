@@ -11,11 +11,11 @@ import (
 type (
 	// Github -.
 	Github interface {
-		GetContributors(context.Context) ([]model.Contributor, error)
+		GetContributors(context.Context, model.Request) ([]model.Contributor, error)
 	}
 
 	// GithubWebApi -.
 	GithubWebAPI interface {
-		GetContributors(param model.Request) ([]model.Contributor, error)
+		GetContributors(model.Request) ([]model.Contributor, error)
 	}
 )

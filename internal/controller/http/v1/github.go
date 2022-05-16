@@ -20,7 +20,7 @@ func NewGithubRoutes(handler *gin.RouterGroup, g usecase.Github, l logger.Interf
 
 	h := handler.Group("/github")
 	{
-		h.GET("/contributors", r)
+		h.GET("/contributors", r.getContributors)
 		//h.POST("/do-translate", r.doTranslate)
 	}
 }
@@ -39,9 +39,14 @@ type contributorsResponse struct {
 // @Failure     500 {object} response
 // @Router      /translation/history [get]
 func (r *githubRoutes) getContributors(c *gin.Context) {
-	contributors, err := r.g.GetContributors(c.Request.Context())
+	testReq := model.Request{
+		Owner: "OpenFeign",
+		Repo:  "feign",
+	}
+
+	contributors, err := r.g.GetContributors(c.Request.Context(), testReq)
 	if err != nil {
-		r.l.Error(err, "http - v1 - history")
+		r.l.Error(err, "http - v1 - getContributors")
 		errorResponse(c, http.StatusInternalServerError, "github web api problems")
 		return
 	}

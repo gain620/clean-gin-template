@@ -8,9 +8,6 @@ import (
 	"time"
 )
 
-type WebAPI interface {
-}
-
 // GithubWebAPI -.
 type GithubWebAPI struct {
 	conf   GithubWebAPIConfig
@@ -23,7 +20,7 @@ type GithubWebAPIConfig struct {
 }
 
 // New -.
-func New() WebAPI {
+func New() *GithubWebAPI {
 	conf := &GithubWebAPIConfig{
 		UserAgent: "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:15.0) Gecko/20100101 Firefox/15.0.1",
 		Timeout:   10 * time.Second,
@@ -55,7 +52,7 @@ func (t *GithubWebAPI) GetContributors(param model.Request) ([]model.Contributor
 	}
 
 	if resp.IsSuccess() {
-		err = resp.Unmarshal(contributors)
+		err = resp.Unmarshal(&contributors)
 		if err != nil {
 			log.Warn(err)
 		}

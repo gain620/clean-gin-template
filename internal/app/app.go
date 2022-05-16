@@ -3,7 +3,9 @@ package app
 
 import (
 	"clean-gin-template/config"
-	v1 "clean-gin-template/internal/controller/http/v1/movie"
+	v1 "clean-gin-template/internal/controller/http/v1"
+	"clean-gin-template/internal/usecase"
+	webapi "clean-gin-template/internal/web-api"
 	"fmt"
 	nested "github.com/antonfisher/nested-logrus-formatter"
 	"github.com/evrone/go-clean-template/pkg/httpserver"
@@ -52,6 +54,10 @@ func Run(cfg *config.Config) {
 	//	webapi.New(),
 	//)
 	//
+	githubUseCase := usecase.New(
+		webapi.New(),
+	)
+
 	//// RabbitMQ RPC Server
 	//rmqRouter := amqprpc.NewRouter(translationUseCase)
 	//
@@ -62,7 +68,7 @@ func Run(cfg *config.Config) {
 
 	// HTTP Server
 	handler := gin.New()
-	v1.NewMovieRouter(handler, l)
+	v1.NewRouter(handler, githubUseCase, l)
 	httpServer := httpserver.New(handler, httpserver.Port(cfg.HTTP.Port))
 
 	// Waiting signal
