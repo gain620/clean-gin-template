@@ -61,4 +61,5 @@ cc_windows:
 	set CGO_ENABLED=0& set GOOS=linux& set GOARCH=amd64& $(Go) build -o bin/$(App)-linux-amd64.exe .
 	set CGO_ENABLED=0& set GOOS=windows& set GOARCH=arm& $(Go) build -o bin/$(App)-windows-arm.exe .
 
-.PHONY: all: hello docker_job bye
+.PHONY: all
+all: hello docker_job bye
