@@ -1,8 +1,8 @@
 package model
 
 type ContributorRequest struct {
-	Owner string `form:"owner" json:"owner" binding:"required"`
-	Repo  string `form:"repo" json:"repo" binding:"required"`
+	Owner string `uri:"owner" form:"owner" json:"owner" binding:"required"`
+	Repo  string `uri:"repo" form:"repo" json:"repo" binding:"required"`
 }
 
 // ErrorMessage defines error body struct
