@@ -14,12 +14,13 @@ type GithubWebAPI struct {
 	client *req.Client
 }
 
+// GithubWebAPIConfig is for client configurations.
 type GithubWebAPIConfig struct {
 	UserAgent string
 	Timeout   time.Duration
 }
 
-// New -.
+// New creates a new GithubWebAPI client.
 func New() *GithubWebAPI {
 	conf := &GithubWebAPIConfig{
 		UserAgent: "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:15.0) Gecko/20100101 Firefox/15.0.1",
@@ -34,8 +35,8 @@ func New() *GithubWebAPI {
 }
 
 // GetContributors -.
-func (t *GithubWebAPI) GetContributors(param model.Request) ([]model.Contributor, error) {
-	var contributors []model.Contributor
+func (t *GithubWebAPI) GetContributors(param model.ContributorRequest) ([]model.ContributorResponse, error) {
+	var contributors []model.ContributorResponse
 	//errMsg := &model.ErrorMessage{}
 
 	resp, err := t.client.R().

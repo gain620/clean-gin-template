@@ -6,12 +6,12 @@ import (
 	"fmt"
 )
 
-// MovieUseCase -
+// GithubUseCase -
 type GithubUseCase struct {
 	webAPI GithubWebAPI
 }
 
-// NewGithubUseCse -
+// New -
 func New(w GithubWebAPI) *GithubUseCase {
 	return &GithubUseCase{
 		webAPI: w,

@@ -14,7 +14,7 @@ type (
 		GetContributors(context.Context, model.ContributorRequest) ([]model.ContributorResponse, error)
 	}
 
-	// GithubWebApi -.
+	// GithubWebAPI -.
 	GithubWebAPI interface {
 		GetContributors(request model.ContributorRequest) ([]model.ContributorResponse, error)
 	}

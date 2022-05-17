@@ -20,7 +20,7 @@ func NewGithubRoutes(handler *gin.RouterGroup, g usecase.Github, l logger.Interf
 
 	h := handler.Group("/github")
 	{
-		h.GET("/contributors", r.getContributors)
+		h.GET("/contributors/:owner/:repo", r.getContributors)
 		//h.POST("/do-translate", r.doTranslate)
 	}
 }
@@ -30,17 +30,17 @@ type contributorsResponse struct {
 }
 
 // @Summary     Show github repository contributors
-// @Description Show all contributors in the repository
+// @Description Get all contributors in the designated repository
 // @ID          contributors
 // @Tags  	    github
 // @Accept      json
 // @Produce     json
 // @Success     200 {object} contributorsResponse
 // @Failure     500 {object} response
-// @Router      /github/contributors/?owner=abc&repo=myrepo [get]
+// @Router      /github/contributors/:owner/:repo [get]
 func (r *githubRoutes) getContributors(c *gin.Context) {
 	var req model.ContributorRequest
-	if err := c.ShouldBind(&req); err != nil {
+	if err := c.ShouldBindUri(&req); err != nil {
 		errorResponse(c, http.StatusBadRequest, "please specify the correct owner and repo name!")
 		return
 	}
