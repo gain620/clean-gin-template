@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package github;
+
+option go_package = "clean-gin-template/internal/model/github/proto";
+
+import "contributor.proto";
+
+service GithubService {
+  rpc GetContributors (ContributorRequest) returns (ContributorResponse);
+}
