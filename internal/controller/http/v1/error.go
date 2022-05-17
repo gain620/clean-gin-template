@@ -6,8 +6,6 @@ import "github.com/gin-gonic/gin"
 type response struct {
 	Error string `json:"error" example:"message"`
 }
-type CustomError interface {
-}
 
 type serverError struct {
 	Code    int    `json:"code" example:"501"`

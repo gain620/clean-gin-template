@@ -1,6 +1,6 @@
 package model
 
-type Contributor struct {
+type ContributorResponse struct {
 	Login             string `json:"login"`
 	ID                int    `json:"id"`
 	NodeID            string `json:"node_id"`

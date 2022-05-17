@@ -26,25 +26,26 @@ func NewGithubRoutes(handler *gin.RouterGroup, g usecase.Github, l logger.Interf
 }
 
 type contributorsResponse struct {
-	Contributors []model.Contributor `json:"contributors"`
+	Contributors []model.ContributorResponse `json:"contributors"`
 }
 
-// @Summary     Show history
-// @Description Show all translation history
-// @ID          history
-// @Tags  	    translation
+// @Summary     Show github repository contributors
+// @Description Show all contributors in the repository
+// @ID          contributors
+// @Tags  	    github
 // @Accept      json
 // @Produce     json
-// @Success     200 {object} historyResponse
+// @Success     200 {object} contributorsResponse
 // @Failure     500 {object} response
-// @Router      /translation/history [get]
+// @Router      /github/contributors/?owner=abc&repo=myrepo [get]
 func (r *githubRoutes) getContributors(c *gin.Context) {
-	testReq := model.Request{
-		Owner: "OpenFeign",
-		Repo:  "feign",
+	var req model.ContributorRequest
+	if err := c.ShouldBind(&req); err != nil {
+		errorResponse(c, http.StatusBadRequest, "please specify the correct owner and repo name!")
+		return
 	}
 
-	contributors, err := r.g.GetContributors(c.Request.Context(), testReq)
+	contributors, err := r.g.GetContributors(c.Request.Context(), req)
 	if err != nil {
 		r.l.Error(err, "http - v1 - getContributors")
 		errorResponse(c, http.StatusInternalServerError, "github web api problems")
