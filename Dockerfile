@@ -11,6 +11,8 @@ RUN go mod download
 COPY . .
 RUN go test -cover -v ./...; \
     go build -ldflags="-s -w" -o /app/main ./cmd/app/app.go; \
+    apk update; \
+    apk add upx; \
     upx -9 /app/main
 
 # Alpine Version
