@@ -6,6 +6,10 @@ on:
   pull_request:
     branches: [ main ]
 
+env:
+  GHCR_TOKEN: ${{ secrets.GHCR_TOKEN }}
+  USERNAME: ${{ secrets.USERNAME }}
+
 jobs:
   build:
 

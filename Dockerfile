@@ -28,6 +28,9 @@ ENV PORT 8080
 
 WORKDIR /app
 
+
+# TODO : FIX
+# cp: can't stat '/usr/share/zoneinfo/Asia/Seoul': No such file or directory
 RUN mkdir -p /app/log; \
     cp /usr/share/zoneinfo/${TZ} /etc/localtime && \
     echo ${TZ} > /etc/timezone; \

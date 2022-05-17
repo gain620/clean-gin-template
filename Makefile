@@ -2,7 +2,7 @@ Go=go
 App=clean-gin-server
 type=prod
 
-docker_registry=docker-${type}-local
+docker_registry=ghcr.io/${USERNAME}
 image=${docker_registry}/${App}
 version=v`git rev-list HEAD --count`-${type}
 
@@ -24,6 +24,9 @@ docker_build:
 	@echo '-------------------------------------------'
 	@docker build -t $(image):$(version) -t $(image):latest --no-cache .
 
+docker_login:
+	@echo ${GHCR_TOKEN} | docker login ghcr.io -u ${USERNAME} --password-stdin
+
 docker_push:
 #	@docker push $(image) --all
 	@docker push $(image):$(version)
@@ -33,7 +36,7 @@ docker_rmi:
 	@docker rmi $(image):$(version)
 	@docker rmi $(image):latest
 
-docker_job: docker_build docker_push docker_rmi
+docker_job: docker_build docker_login docker_push docker_rmi
 
 clean:
 	@$(Go) clean
