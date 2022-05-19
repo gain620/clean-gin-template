@@ -13,6 +13,7 @@ Spring 웹프레임워크에서 쉽게 볼 수 있는 layered 아키텍처를 �
 
 - [x] CI Workflow
 - [ ] gRPC
+- [ ] Prometheus metrics endpoint
 - [ ] ORM
 - [ ] Kafka Producer/Consumer
 - [ ] Testing
