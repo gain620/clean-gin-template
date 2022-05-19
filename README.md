@@ -20,6 +20,7 @@ Spring 웹프레임워크에서 쉽게 볼 수 있는 layered 아키텍처를 �
 위와 같은 요소들을 추가할 계획입니다.
 
 
-참고) - https://github.com/bxcodec/go-clean-arch
-      - https://github.com/Pungyeon/clean-go-article
-      - https://dev.to/bmf_san/dive-to-clean-architecture-with-golang-cd4
+참고) 
+- https://github.com/bxcodec/go-clean-arch
+- https://github.com/Pungyeon/clean-go-article
+- https://dev.to/bmf_san/dive-to-clean-architecture-with-golang-cd4
