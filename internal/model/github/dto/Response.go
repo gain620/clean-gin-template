@@ -1,4 +1,4 @@
-package model
+package dto
 
 type ContributorResponse struct {
 	Login             string `json:"login"`

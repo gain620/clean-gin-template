@@ -3,7 +3,6 @@ package middleware
 import (
 	"clean-gin-template/pkg/logger"
 	"github.com/gin-gonic/gin"
-	log "github.com/sirupsen/logrus"
 )
 
 // Middleware -.
@@ -30,14 +29,13 @@ func (m *ginMiddleware) CORS() gin.HandlerFunc {
 		c.Header("Access-Control-Allow-Origin", "*")
 		c.Header("Access-Control-Allow-Methods", "GET, DELETE, POST, PUT , UPDATE")
 
-		log.WithFields(log.Fields{
-			"middleware": "CORS",
-		}).Info("MIDDLEWARE RUNNING...")
+		m.l.Debug("Middleware running")
 
-		if c.Request.Method == "OPTIONS" {
-			c.AbortWithStatus(204)
-			return
-		}
+		//if c.Request.Method == "OPTIONS" {
+		//	c.AbortWithStatus(204)
+		//	return
+		//}
+
 		c.Next()
 	}
 }

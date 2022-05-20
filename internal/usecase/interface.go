@@ -2,7 +2,7 @@
 package usecase
 
 import (
-	model "clean-gin-template/internal/model/github"
+	"clean-gin-template/internal/model/github/dto"
 	"context"
 )
 
@@ -11,11 +11,16 @@ import (
 type (
 	// Github -.
 	Github interface {
-		GetContributors(context.Context, model.ContributorRequest) ([]model.ContributorResponse, error)
+		GetContributors(context.Context, dto.ContributorRequest) ([]dto.ContributorResponse, error)
 	}
 
 	// GithubWebAPI -.
 	GithubWebAPI interface {
-		GetContributors(request model.ContributorRequest) ([]model.ContributorResponse, error)
+		GetContributors(request dto.ContributorRequest) ([]dto.ContributorResponse, error)
+	}
+
+	// UserRepo -.
+	UserRepo interface {
+		GetUsers() error
 	}
 )
