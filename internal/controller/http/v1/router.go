@@ -17,9 +17,9 @@ import (
 // NewRouter -.
 // Swagger spec:
 // @title       Gin Clean Template API
-// @description Using a translation service as an example
+// @description Using a github web api service as an example
 // @version     1.0
-// @host        localhost:8080
+// @host        localhost:{PORT}
 // @BasePath    /v1
 func NewRouter(handler *gin.Engine, g usecase.Github, l logger.Interface) {
 	// Options

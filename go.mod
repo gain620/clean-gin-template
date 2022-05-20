@@ -3,9 +3,7 @@ module clean-gin-template
 go 1.18
 
 require (
-	github.com/Conight/go-googletrans v0.0.0-20200929083318-176776d061cb
 	github.com/antonfisher/nested-logrus-formatter v1.3.1
-	github.com/evrone/go-clean-template v1.4.2
 	github.com/gin-gonic/gin v1.7.7
 	github.com/imroc/req/v3 v3.11.0
 	github.com/sirupsen/logrus v1.8.1

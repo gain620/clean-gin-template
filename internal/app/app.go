@@ -7,8 +7,8 @@ import (
 	"clean-gin-template/internal/usecase"
 	webapi "clean-gin-template/internal/web-api"
 	"clean-gin-template/pkg/logger"
+	"clean-gin-template/pkg/server"
 	"fmt"
-	"github.com/evrone/go-clean-template/pkg/httpserver"
 	"os"
 	"os/signal"
 	"syscall"
@@ -58,7 +58,7 @@ func Run(cfg *config.Config) {
 	// HTTP Server
 	handler := gin.New()
 	v1.NewRouter(handler, githubUseCase, l)
-	httpServer := httpserver.New(handler, httpserver.Port(cfg.HTTP.Port))
+	httpServer := server.New(handler, server.Port(cfg.HTTP.Port))
 
 	// Waiting signal
 	interrupt := make(chan os.Signal, 1)
