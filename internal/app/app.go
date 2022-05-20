@@ -61,7 +61,7 @@ func Run(cfg *config.Config) {
 	// Dependency Injection
 	v1.NewRouter(handler, githubUseCase, l)
 
-	// Start server
+	// Start http server
 	httpServer := server.New(handler, server.Port(cfg.Server.Port))
 	//httpsServer := server.New(handler, server.TLS(cfg.Server.Cert, cfg.Server.Key), server.Port(cfg.Server.Port))
 
