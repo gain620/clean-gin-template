@@ -8,7 +8,7 @@ import (
 type (
 	Config struct {
 		App      `yaml:"app"`
-		HTTP     `yaml:"http"`
+		Server   `yaml:"server"`
 		MyLog    `yaml:"my_log"`
 		PG       `yaml:"postgres"`
 		RMQ      `yaml:"rabbitmq"`
@@ -20,8 +20,11 @@ type (
 		Version string `env-required:"true" yaml:"version" env:"APP_VERSION"`
 	}
 
-	HTTP struct {
-		Port string `env-required:"true" yaml:"port" env:"HTTP_PORT"`
+	Server struct {
+		Scheme string `env-required:"true" yaml:"scheme" env:"SERVER_SCHEME"`
+		Port   string `env-required:"true" yaml:"port" env:"SERVER_PORT"`
+		Cert   string `env-required:"true" yaml:"cert" env:"SERVER_CERT"`
+		Key    string `env-required:"true" yaml:"key" env:"SERVER_KEY"`
 	}
 
 	// MyLog TODO : Fix MyLog reading problem

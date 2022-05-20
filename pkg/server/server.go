@@ -8,15 +8,18 @@ import (
 )
 
 const (
-	DefaultReadTimeout     = 5 * time.Second
-	DefaultWriteTimeout    = 5 * time.Second
-	DefaultAddr            = ":80"
-	DefaultShutdownTimeout = 3 * time.Second
+	DefaultReadTimeout      = 5 * time.Second
+	DefaultWriteTimeout     = 5 * time.Second
+	DefaultAddr             = ":80"
+	DefaultShutdownTimeout  = 3 * time.Second
+	DefaultCertFileLocation = "./config/ssl/server.crt"
+	DefaultKeyFileLocation  = "./config/ssl/server.key"
 )
 
 // Server initialization
 type Server interface {
 	run()
+	runTLS()
 	Notify() <-chan error
 	Shutdown() error
 }
@@ -25,6 +28,9 @@ type server struct {
 	server          *http.Server
 	notify          chan error
 	shutdownTimeout time.Duration
+	scheme          string
+	certFileLoc     string
+	keyFileLoc      string
 }
 
 // New -.
@@ -36,10 +42,13 @@ func New(handler http.Handler, opts ...Option) Server {
 		Addr:         DefaultAddr,
 	}
 
+	// http is the default server type
 	s := &server{
 		server:          httpServer,
 		notify:          make(chan error, 1),
 		shutdownTimeout: DefaultShutdownTimeout,
+		certFileLoc:     DefaultCertFileLocation,
+		keyFileLoc:      DefaultKeyFileLocation,
 	}
 
 	// Custom options
@@ -48,6 +57,7 @@ func New(handler http.Handler, opts ...Option) Server {
 	}
 
 	s.run()
+	//s.runTLS()
 
 	return s
 }
@@ -55,6 +65,13 @@ func New(handler http.Handler, opts ...Option) Server {
 func (s *server) run() {
 	go func() {
 		s.notify <- s.server.ListenAndServe()
+		close(s.notify)
+	}()
+}
+
+func (s *server) runTLS() {
+	go func() {
+		s.notify <- s.server.ListenAndServeTLS(s.certFileLoc, s.keyFileLoc)
 		close(s.notify)
 	}()
 }

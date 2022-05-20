@@ -55,10 +55,15 @@ func Run(cfg *config.Config) {
 	//	l.Fatal(fmt.Errorf("app - Run - rmqServer - server.New: %w", err))
 	//}
 
-	// HTTP Server
+	// Server init
 	handler := gin.New()
+
+	// Dependency Injection
 	v1.NewRouter(handler, githubUseCase, l)
-	httpServer := server.New(handler, server.Port(cfg.HTTP.Port))
+
+	// Start server
+	httpServer := server.New(handler, server.Port(cfg.Server.Port))
+	//httpsServer := server.New(handler, server.TLS(cfg.Server.Cert, cfg.Server.Key), server.Port(cfg.Server.Port))
 
 	// Waiting signal
 	interrupt := make(chan os.Signal, 1)

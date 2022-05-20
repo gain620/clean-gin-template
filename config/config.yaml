@@ -1,9 +1,12 @@
 app:
   name: 'clean-gin-template'
-  version: '1.0.0'
+  version: '1.2.0'
 
-http:
+server:
+  scheme: 'http'
   port: '8080'
+  cert: ''
+  key: ''
 
 my_log:
   log_level: 'debug'
