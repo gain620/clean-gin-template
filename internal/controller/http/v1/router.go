@@ -9,6 +9,7 @@ import (
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 
+	_middleware "clean-gin-template/internal/controller/http/middleware"
 	// Swagger docs.
 	//_ "github.com/evrone/go-clean-template/docs"
 	"clean-gin-template/pkg/logger"
@@ -25,6 +26,9 @@ func NewRouter(handler *gin.Engine, g usecase.Github, l logger.Interface) {
 	// Options
 	handler.Use(gin.Logger())
 	handler.Use(gin.Recovery())
+
+	midL := _middleware.New(l)
+	handler.Use(midL.CORS())
 
 	// Swagger
 	swaggerHandler := ginSwagger.DisablingWrapHandler(swaggerFiles.Handler, "DISABLE_SWAGGER_HTTP_HANDLER")
