@@ -6,11 +6,9 @@ import (
 	v1 "clean-gin-template/internal/controller/http/v1"
 	"clean-gin-template/internal/usecase"
 	webapi "clean-gin-template/internal/web-api"
+	"clean-gin-template/pkg/logger"
 	"fmt"
-	nested "github.com/antonfisher/nested-logrus-formatter"
 	"github.com/evrone/go-clean-template/pkg/httpserver"
-	log "github.com/sirupsen/logrus"
-
 	"os"
 	"os/signal"
 	"syscall"
@@ -30,16 +28,7 @@ import (
 
 // Run creates dependency components for injection.
 func Run(cfg *config.Config) {
-	l := &log.Logger{
-		Out:   os.Stderr,
-		Level: log.DebugLevel,
-		//Level: cfg.MyLog.Level,
-		Formatter: &nested.Formatter{
-			HideKeys:    true,
-			CallerFirst: true,
-			FieldsOrder: []string{"component", "action"},
-		},
-	}
+	l := logger.LogurusSetup(cfg)
 
 	// Repository
 	//pg, err := postgres.New(cfg.PG.URL, postgres.MaxPoolSize(cfg.PG.PoolMax))
