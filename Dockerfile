@@ -21,7 +21,7 @@ LABEL maintainer="gainchang620@gmail.com"
 ENV APP_USER gin
 ENV APP_GROUP docker
 ENV APP_UID 666
-ENV APP_GID 999
+ENV APP_GID 998
 ENV TZ Asia/Seoul
 ENV PORT 8080
 
