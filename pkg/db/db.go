@@ -2,58 +2,43 @@
 package db
 
 import (
+	"clean-gin-template/config"
 	"database/sql"
 	"fmt"
+	_ "github.com/go-sql-driver/mysql"
 	log "github.com/sirupsen/logrus"
-	"github.com/spf13/viper"
 	"net/url"
 	"sync"
 )
-
-func init() {
-	viper.SetConfigFile(`./configs/db-configs.json`)
-	err := viper.ReadInConfig()
-	if err != nil {
-		panic(err)
-	}
-
-	if viper.GetBool(`debug`) {
-		log.Println("Service RUN on DEBUG mode")
-	}
-}
 
 // singleton database connection
 var client *sql.DB
 var once sync.Once
 
-//func getOption() option.ClientOption {
-//	rawString := os.Getenv("SERVICE_ACCOUNT_KEY")
-//	return option.WithCredentialsJSON([]byte(rawString))
-//}
-
-func getDBDSN() string {
-	dbHost := viper.GetString(`database.host`)
-	dbPort := viper.GetString(`database.port`)
-	dbUser := viper.GetString(`database.user`)
-	dbPass := viper.GetString(`database.pass`)
-	dbName := viper.GetString(`database.name`)
-	dbLocation := viper.GetString(`database.location`)
+func GetDSN(cfg *config.Config) string {
+	dbHost := cfg.Database.Host
+	dbPort := cfg.Database.Port
+	dbUser := cfg.Database.User
+	dbPass := cfg.Database.Pass
+	dbName := cfg.Database.Name
+	dbLocation := cfg.Database.Location
 
 	connection := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s", dbUser, dbPass, dbHost, dbPort, dbName)
 	val := url.Values{}
 	val.Add("parseTime", "1")
 	val.Add("loc", dbLocation)
 	dsn := fmt.Sprintf("%s?%s", connection, val.Encode())
+	fmt.Println(dsn)
 	return dsn
 }
 
 // GetClient return singleton database client instance
-func GetClient() (*sql.DB, error) {
+func GetClient(cfg *config.Config) (*sql.DB, error) {
 	once.Do(func() {
-		dsn := getDBDSN()
-		dbConn, err := sql.Open(`mysql`, dsn)
+		dsn := GetDSN(cfg)
+		dbConn, err := sql.Open(cfg.Database.Type, dsn)
 		if err != nil {
-			panic(err)
+			log.Fatal(err)
 		}
 		//defer client.Close()
 		client = dbConn

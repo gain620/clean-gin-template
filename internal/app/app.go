@@ -6,6 +6,7 @@ import (
 	v1 "clean-gin-template/internal/controller/http/v1"
 	"clean-gin-template/internal/usecase"
 	webapi "clean-gin-template/internal/web-api"
+	"clean-gin-template/pkg/db"
 	"clean-gin-template/pkg/logger"
 	"clean-gin-template/pkg/server"
 	"fmt"
@@ -36,6 +37,16 @@ func Run(cfg *config.Config) {
 	//	l.Fatal(fmt.Errorf("app - Run - postgres.New: %w", err))
 	//}
 	//defer pg.Close()
+	client, err := db.GetClient(cfg)
+	if err != nil {
+		l.Fatal(fmt.Errorf("app - Run - db.GetClient: %v", err))
+	}
+	defer client.Close()
+
+	err = client.Ping()
+	if err != nil {
+		l.Fatal(fmt.Errorf("db connection error : %v", err))
+	}
 
 	// Use case
 	//translationUseCase := usecase.New(
@@ -80,7 +91,7 @@ func Run(cfg *config.Config) {
 	}
 
 	// Shutdown
-	err := httpServer.Shutdown()
+	err = httpServer.Shutdown()
 	if err != nil {
 		l.Error(fmt.Errorf("app - Run - httpServer.Shutdown: %w", err))
 	}

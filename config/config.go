@@ -48,7 +48,7 @@ type (
 		Type     string `yaml:"type"`
 		Host     string `yaml:"host"`
 		PoolMax  int    `yaml:"pool_max"`
-		Port     int    `yaml:"port"`
+		Port     string `yaml:"port"`
 		User     string `yaml:"user"`
 		Pass     string `yaml:"pass"`
 		Name     string `yaml:"name"`

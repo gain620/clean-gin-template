@@ -27,5 +27,5 @@ database:
   # embedded in k8s secrets
   user: root
   pass: password
-  name: movie
+  name: clean_gin_app
   location: Asia/Seoul
