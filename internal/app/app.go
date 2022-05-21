@@ -10,21 +10,10 @@ import (
 	"clean-gin-template/pkg/logger"
 	"clean-gin-template/pkg/server"
 	"fmt"
+	"github.com/gin-gonic/gin"
 	"os"
 	"os/signal"
 	"syscall"
-
-	"github.com/gin-gonic/gin"
-	//"github.com/evrone/go-clean-template/config"
-	//amqprpc "github.com/evrone/go-clean-template/internal/controller/amqp_rpc"
-	//v1 "github.com/evrone/go-clean-template/internal/controller/http/v1"
-	//"github.com/evrone/go-clean-template/internal/usecase"
-	//"github.com/evrone/go-clean-template/internal/usecase/repo"
-	//"github.com/evrone/go-clean-template/internal/usecase/webapi"
-	//"github.com/evrone/go-clean-template/pkg/httpserver"
-	//"github.com/evrone/go-clean-template/pkg/logger"
-	//"github.com/evrone/go-clean-template/pkg/postgres"
-	//"github.com/evrone/go-clean-template/pkg/rabbitmq/rmq_rpc/server"
 )
 
 // Run creates dependency components for injection.
@@ -32,11 +21,6 @@ func Run(cfg *config.Config) {
 	l := logger.LogurusSetup(cfg)
 
 	// Repository
-	//pg, err := postgres.New(cfg.PG.URL, postgres.MaxPoolSize(cfg.PG.PoolMax))
-	//if err != nil {
-	//	l.Fatal(fmt.Errorf("app - Run - postgres.New: %w", err))
-	//}
-	//defer pg.Close()
 	client, err := db.GetClient(cfg)
 	if err != nil {
 		l.Fatal(fmt.Errorf("app - Run - db.GetClient: %v", err))
