@@ -12,9 +12,6 @@ my_log:
   log_level: 'debug'
   rollbar_env: 'clean-gin-template'
 
-postgres:
-  pool_max: 2
-
 rabbitmq:
   rpc_server_exchange: 'rpc_server'
   rpc_client_exchange: 'rpc_client'

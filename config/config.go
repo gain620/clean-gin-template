@@ -10,7 +10,6 @@ type (
 		App      `yaml:"app"`
 		Server   `yaml:"server"`
 		MyLog    `yaml:"my_log"`
-		PG       `yaml:"postgres"`
 		RMQ      `yaml:"rabbitmq"`
 		Database `yaml:"database"`
 	}
@@ -31,11 +30,6 @@ type (
 	MyLog struct {
 		Level      string `env-required:"true" yaml:"log_level"   env:"LOG_LEVEL"`
 		RollbarEnv string `yaml:"rollbar_env"`
-	}
-
-	PG struct {
-		PoolMax int    `env-required:"true" yaml:"pool_max" env:"PG_POOL_MAX"`
-		URL     string `env-required:"true"                 env:"PG_URL"`
 	}
 
 	RMQ struct {
