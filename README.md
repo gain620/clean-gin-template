@@ -13,10 +13,10 @@ Spring 웹프레임워크에서 쉽게 볼 수 있는 layered 아키텍처를 �
 
 - [x] CI Workflow
 - [ ] gRPC
-- [ ] Prometheus metrics endpoint
-- [ ] ORM
+- [ ] Prometheus metrics
+- [ ] sqlx / sqlboiler
 - [ ] Kafka Producer/Consumer
-- [ ] Testing
+- [ ] Test Automation
 
 위와 같은 요소들을 추가할 계획입니다.
 
