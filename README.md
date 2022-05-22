@@ -12,7 +12,7 @@ Spring 웹프레임워크에서 쉽게 볼 수 있는 layered 아키텍처를 �
 현재 계속 업데이트를 진행하고 있으며
 
 - [x] CI Workflow
-- [ ] Rate-Limiter Middleware
+- [X] Rate Limiter Middleware
 - [ ] gRPC
 - [ ] Prometheus metrics
 - [ ] sqlx / sqlboiler
