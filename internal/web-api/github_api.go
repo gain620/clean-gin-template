@@ -1,7 +1,7 @@
 package webapi
 
 import (
-	model "clean-gin-template/internal/model/github"
+	"clean-gin-template/internal/model/github/dto"
 	"fmt"
 	"github.com/imroc/req/v3"
 	log "github.com/sirupsen/logrus"
@@ -10,19 +10,19 @@ import (
 
 // GithubWebAPI -.
 type GithubWebAPI struct {
-	conf   GithubWebAPIConfig
+	conf   githubWebAPIConfig
 	client *req.Client
 }
 
-// GithubWebAPIConfig is for client configurations.
-type GithubWebAPIConfig struct {
+// githubWebAPIConfig is for client configurations.
+type githubWebAPIConfig struct {
 	UserAgent string
 	Timeout   time.Duration
 }
 
 // New creates a new GithubWebAPI client.
 func New() *GithubWebAPI {
-	conf := &GithubWebAPIConfig{
+	conf := &githubWebAPIConfig{
 		UserAgent: "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:15.0) Gecko/20100101 Firefox/15.0.1",
 		Timeout:   10 * time.Second,
 	}
@@ -35,8 +35,8 @@ func New() *GithubWebAPI {
 }
 
 // GetContributors -.
-func (t *GithubWebAPI) GetContributors(param model.ContributorRequest) ([]model.ContributorResponse, error) {
-	var contributors []model.ContributorResponse
+func (t *GithubWebAPI) GetContributors(param dto.ContributorRequest) ([]dto.ContributorResponse, error) {
+	var contributors []dto.ContributorResponse
 	//errMsg := &model.ErrorMessage{}
 
 	resp, err := t.client.R().

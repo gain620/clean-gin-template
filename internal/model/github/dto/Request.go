@@ -1,4 +1,4 @@
-package model
+package dto
 
 type ContributorRequest struct {
 	Owner string `uri:"owner" form:"owner" json:"owner" binding:"required"`

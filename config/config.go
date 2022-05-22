@@ -8,9 +8,8 @@ import (
 type (
 	Config struct {
 		App      `yaml:"app"`
-		HTTP     `yaml:"http"`
+		Server   `yaml:"server"`
 		MyLog    `yaml:"my_log"`
-		PG       `yaml:"postgres"`
 		RMQ      `yaml:"rabbitmq"`
 		Database `yaml:"database"`
 	}
@@ -20,19 +19,17 @@ type (
 		Version string `env-required:"true" yaml:"version" env:"APP_VERSION"`
 	}
 
-	HTTP struct {
-		Port string `env-required:"true" yaml:"port" env:"HTTP_PORT"`
+	Server struct {
+		Scheme string `env-required:"true" yaml:"scheme" env:"SERVER_SCHEME"`
+		Port   string `env-required:"true" yaml:"port" env:"SERVER_PORT"`
+		Cert   string `env-required:"true" yaml:"cert" env:"SERVER_CERT"`
+		Key    string `env-required:"true" yaml:"key" env:"SERVER_KEY"`
 	}
 
 	// MyLog TODO : Fix MyLog reading problem
 	MyLog struct {
 		Level      string `env-required:"true" yaml:"log_level"   env:"LOG_LEVEL"`
 		RollbarEnv string `yaml:"rollbar_env"`
-	}
-
-	PG struct {
-		PoolMax int    `env-required:"true" yaml:"pool_max" env:"PG_POOL_MAX"`
-		URL     string `env-required:"true"                 env:"PG_URL"`
 	}
 
 	RMQ struct {
@@ -45,7 +42,7 @@ type (
 		Type     string `yaml:"type"`
 		Host     string `yaml:"host"`
 		PoolMax  int    `yaml:"pool_max"`
-		Port     int    `yaml:"port"`
+		Port     string `yaml:"port"`
 		User     string `yaml:"user"`
 		Pass     string `yaml:"pass"`
 		Name     string `yaml:"name"`

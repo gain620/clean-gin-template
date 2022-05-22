@@ -1,7 +1,7 @@
 package usecase
 
 import (
-	model "clean-gin-template/internal/model/github"
+	"clean-gin-template/internal/model/github/dto"
 	"context"
 	"fmt"
 )
@@ -19,10 +19,10 @@ func New(w GithubWebAPI) *GithubUseCase {
 }
 
 // GetContributors -.
-func (uc *GithubUseCase) GetContributors(ctx context.Context, param model.ContributorRequest) ([]model.ContributorResponse, error) {
+func (uc *GithubUseCase) GetContributors(ctx context.Context, param dto.ContributorRequest) ([]dto.ContributorResponse, error) {
 	contributors, err := uc.webAPI.GetContributors(param)
 	if err != nil {
-		return []model.ContributorResponse{}, fmt.Errorf("GithubUseCase - GetContributors : %w", err)
+		return []dto.ContributorResponse{}, fmt.Errorf("GithubUseCase - GetContributors : %w", err)
 	}
 
 	return contributors, nil

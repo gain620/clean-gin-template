@@ -5,8 +5,7 @@ WORKDIR /build
 
 ENV GO111MODULE=on CGO_ENABLED=0 GOOS=linux GOARCH=amd64
 
-ADD go.mod .
-ADD go.sum .
+COPY go.mod go.sum ./
 RUN go mod download
 COPY . .
 RUN go test -cover -v ./...; \
@@ -19,22 +18,20 @@ RUN go test -cover -v ./...; \
 FROM alpine:3.15
 LABEL maintainer="gainchang620@gmail.com"
 
-ENV APP_USER horus
+ENV APP_USER gin
 ENV APP_GROUP docker
 ENV APP_UID 666
-ENV APP_GID 999
+ENV APP_GID 998
 ENV TZ Asia/Seoul
 ENV PORT 8080
 
 WORKDIR /app
-
 
 # TODO : FIX
 # cp: can't stat '/usr/share/zoneinfo/Asia/Seoul': No such file or directory
 RUN mkdir -p /app/log; \
     cp /usr/share/zoneinfo/${TZ} /etc/localtime && \
     echo ${TZ} > /etc/timezone; \
-    delgroup ping && \
     addgroup \
     --gid ${APP_GID} \
     ${APP_GROUP}; \

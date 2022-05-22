@@ -1,16 +1,16 @@
 app:
   name: 'clean-gin-template'
-  version: '1.0.0'
+  version: '1.2.0'
 
-http:
+server:
+  scheme: 'http'
   port: '8080'
+  cert: ''
+  key: ''
 
 my_log:
   log_level: 'debug'
   rollbar_env: 'clean-gin-template'
-
-postgres:
-  pool_max: 2
 
 rabbitmq:
   rpc_server_exchange: 'rpc_server'
@@ -24,5 +24,5 @@ database:
   # embedded in k8s secrets
   user: root
   pass: password
-  name: movie
+  name: clean_gin_app
   location: Asia/Seoul

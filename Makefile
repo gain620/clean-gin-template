@@ -28,9 +28,9 @@ docker_login:
 	@echo ${GHCR_TOKEN} | docker login ghcr.io -u ${USERNAME} --password-stdin
 
 docker_push:
-#	@docker push $(image) --all
-	@docker push $(image):$(version)
-	@docker push $(image):latest
+	@docker push $(image) --all
+	@#docker push $(image):$(version)
+	@#docker push $(image):latest
 
 docker_rmi:
 	@docker rmi $(image):$(version)

@@ -1,4 +1,6 @@
 on:
+  push:
+    branches: [ main ]
   pull_request:
     branches:
       - main
@@ -54,5 +56,5 @@ jobs:
         if: steps.verify-changed-files.outputs.files_changed == 'true'
         uses: ad-m/github-push-action@master
         with:
-          github_token: ${{ github.token }}
+          github_token: ${{ secrets.TOKEN }}
           branch: ${{ github.head_ref }}

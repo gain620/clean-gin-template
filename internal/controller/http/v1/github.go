@@ -1,8 +1,7 @@
 package v1
 
 import (
-	model "clean-gin-template/internal/model/github"
-	"fmt"
+	"clean-gin-template/internal/model/github/dto"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -27,7 +26,7 @@ func NewGithubRoutes(handler *gin.RouterGroup, g usecase.Github, l logger.Interf
 }
 
 type contributorsResponse struct {
-	Contributors []model.ContributorResponse `json:"contributors"`
+	Contributors []dto.ContributorResponse `json:"contributors"`
 }
 
 // @Summary     Show github repository contributors
@@ -40,16 +39,17 @@ type contributorsResponse struct {
 // @Failure     500 {object} response
 // @Router      /github/contributors/:owner/:repo [get]
 func (r *githubRoutes) getContributors(c *gin.Context) {
-	var req model.ContributorRequest
+	var req dto.ContributorRequest
 	if err := c.ShouldBindUri(&req); err != nil {
-		errorResponse(c, http.StatusBadRequest, fmt.Errorf("error - getContributors : %v", err).Error())
+		r.l.Debug(err, "v1 - github - getContributors")
+		errorResponse(c, http.StatusBadRequest, ErrBadParamInput)
 		return
 	}
 
 	contributors, err := r.g.GetContributors(c.Request.Context(), req)
 	if err != nil {
-		errorResponse(c, http.StatusInternalServerError, fmt.Errorf("error - getContributors : %v", err).Error())
-		r.l.Error(err, "http - v1 - getContributors")
+		r.l.Error(err, "v1 - github - getContributors")
+		errorResponse(c, http.StatusInternalServerError, ErrInternalServerError)
 		return
 	}
 

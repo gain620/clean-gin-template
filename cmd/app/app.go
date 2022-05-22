@@ -7,10 +7,10 @@ import (
 )
 
 func main() {
-	// configure application
+	// configure application and run
 	cfg, err := config.NewConfig()
 	if err != nil {
-		log.Fatalf("Config error: %v", err)
+		log.Fatalf("config read error: %v", err)
 	}
 
 	// run application

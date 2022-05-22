@@ -6,47 +6,31 @@ import (
 	v1 "clean-gin-template/internal/controller/http/v1"
 	"clean-gin-template/internal/usecase"
 	webapi "clean-gin-template/internal/web-api"
+	"clean-gin-template/pkg/db"
+	"clean-gin-template/pkg/logger"
+	"clean-gin-template/pkg/server"
 	"fmt"
-	nested "github.com/antonfisher/nested-logrus-formatter"
-	"github.com/evrone/go-clean-template/pkg/httpserver"
-	log "github.com/sirupsen/logrus"
-
+	"github.com/gin-gonic/gin"
 	"os"
 	"os/signal"
 	"syscall"
-
-	"github.com/gin-gonic/gin"
-	//"github.com/evrone/go-clean-template/config"
-	//amqprpc "github.com/evrone/go-clean-template/internal/controller/amqp_rpc"
-	//v1 "github.com/evrone/go-clean-template/internal/controller/http/v1"
-	//"github.com/evrone/go-clean-template/internal/usecase"
-	//"github.com/evrone/go-clean-template/internal/usecase/repo"
-	//"github.com/evrone/go-clean-template/internal/usecase/webapi"
-	//"github.com/evrone/go-clean-template/pkg/httpserver"
-	//"github.com/evrone/go-clean-template/pkg/logger"
-	//"github.com/evrone/go-clean-template/pkg/postgres"
-	//"github.com/evrone/go-clean-template/pkg/rabbitmq/rmq_rpc/server"
 )
 
 // Run creates dependency components for injection.
 func Run(cfg *config.Config) {
-	l := &log.Logger{
-		Out:   os.Stderr,
-		Level: log.DebugLevel,
-		//Level: cfg.MyLog.Level,
-		Formatter: &nested.Formatter{
-			HideKeys:    true,
-			CallerFirst: true,
-			FieldsOrder: []string{"component", "action"},
-		},
-	}
+	l := logger.LogurusSetup(cfg)
 
 	// Repository
-	//pg, err := postgres.New(cfg.PG.URL, postgres.MaxPoolSize(cfg.PG.PoolMax))
-	//if err != nil {
-	//	l.Fatal(fmt.Errorf("app - Run - postgres.New: %w", err))
-	//}
-	//defer pg.Close()
+	client, err := db.GetClient(cfg)
+	if err != nil {
+		l.Fatal(fmt.Errorf("app - Run - db.GetClient: %v", err))
+	}
+	defer client.Close()
+
+	err = client.Ping()
+	if err != nil {
+		l.Fatal(fmt.Errorf("db connection error : %v", err))
+	}
 
 	// Use case
 	//translationUseCase := usecase.New(
@@ -66,10 +50,15 @@ func Run(cfg *config.Config) {
 	//	l.Fatal(fmt.Errorf("app - Run - rmqServer - server.New: %w", err))
 	//}
 
-	// HTTP Server
+	// Server init
 	handler := gin.New()
+
+	// Dependency Injection
 	v1.NewRouter(handler, githubUseCase, l)
-	httpServer := httpserver.New(handler, httpserver.Port(cfg.HTTP.Port))
+
+	// Start http server
+	httpServer := server.New(handler, server.Port(cfg.Server.Port))
+	//httpsServer := server.New(handler, server.TLS(cfg.Server.Cert, cfg.Server.Key), server.Port(cfg.Server.Port))
 
 	// Waiting signal
 	interrupt := make(chan os.Signal, 1)
@@ -86,7 +75,7 @@ func Run(cfg *config.Config) {
 	}
 
 	// Shutdown
-	err := httpServer.Shutdown()
+	err = httpServer.Shutdown()
 	if err != nil {
 		l.Error(fmt.Errorf("app - Run - httpServer.Shutdown: %w", err))
 	}
