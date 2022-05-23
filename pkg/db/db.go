@@ -32,8 +32,8 @@ func GetDSN(cfg *config.Config) string {
 	return dsn
 }
 
-// GetClient return singleton database client instance
-func GetClient(cfg *config.Config) (*sql.DB, error) {
+// NewClient return singleton database client instance
+func NewClient(cfg *config.Config) (*sql.DB, error) {
 	once.Do(func() {
 		dsn := GetDSN(cfg)
 		dbConn, err := sql.Open(cfg.Database.Type, dsn)
