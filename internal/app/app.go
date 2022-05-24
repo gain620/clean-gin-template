@@ -3,14 +3,16 @@ package app
 
 import (
 	"clean-gin-template/config"
+	"clean-gin-template/internal/controller/http/middleware"
 	v1 "clean-gin-template/internal/controller/http/v1"
 	"clean-gin-template/internal/usecase"
 	webapi "clean-gin-template/internal/web-api"
-	"clean-gin-template/pkg/db"
 	"clean-gin-template/pkg/logger"
 	"clean-gin-template/pkg/server"
 	"fmt"
+	"github.com/didip/tollbooth"
 	"github.com/gin-gonic/gin"
+	"go.elastic.co/apm/module/apmgin"
 	"os"
 	"os/signal"
 	"syscall"
@@ -21,16 +23,16 @@ func Run(cfg *config.Config) {
 	l := logger.LogurusSetup(cfg)
 
 	// Repository
-	client, err := db.GetClient(cfg)
-	if err != nil {
-		l.Fatal(fmt.Errorf("app - Run - db.GetClient: %v", err))
-	}
-	defer client.Close()
-
-	err = client.Ping()
-	if err != nil {
-		l.Fatal(fmt.Errorf("db connection error : %v", err))
-	}
+	//client, err := db.GetClient(cfg)
+	//if err != nil {
+	//	l.Fatal(fmt.Errorf("app - Run - db.GetClient: %v", err))
+	//}
+	//defer client.Close()
+	//
+	//err = client.Ping()
+	//if err != nil {
+	//	l.Fatal(fmt.Errorf("db connection error : %v", err))
+	//}
 
 	// Use case
 	//translationUseCase := usecase.New(
@@ -52,6 +54,18 @@ func Run(cfg *config.Config) {
 
 	// Server init
 	handler := gin.New()
+
+	// Create middleware
+	midL := middleware.New(l)
+	// Add CORS
+	handler.Use(midL.CORS())
+
+	// Add Rate Limiter
+	limiter := tollbooth.NewLimiter(2, nil)
+	handler.Use(midL.Limiter(limiter))
+
+	// APM Integration
+	handler.Use(apmgin.Middleware(handler))
 
 	// Dependency Injection
 	v1.NewRouter(handler, githubUseCase, l)
@@ -75,7 +89,7 @@ func Run(cfg *config.Config) {
 	}
 
 	// Shutdown
-	err = httpServer.Shutdown()
+	err := httpServer.Shutdown()
 	if err != nil {
 		l.Error(fmt.Errorf("app - Run - httpServer.Shutdown: %w", err))
 	}
