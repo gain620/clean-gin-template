@@ -19,18 +19,18 @@ FROM alpine:3.15
 LABEL maintainer="gainchang620@gmail.com"
 
 ENV APP_USER gin
-ENV APP_GROUP docker
+ENV APP_GROUP gin
 ENV APP_UID 666
-ENV APP_GID 998
+ENV APP_GID 666
 ENV TZ Asia/Seoul
 ENV PORT 8080
 
 WORKDIR /app
 
-# TODO : FIX
-# cp: can't stat '/usr/share/zoneinfo/Asia/Seoul': No such file or directory
 RUN mkdir -p /app/log; \
+    apk add tzdata; \
     cp /usr/share/zoneinfo/${TZ} /etc/localtime && \
+    apk del tzdata; \
     echo ${TZ} > /etc/timezone; \
     addgroup \
     --gid ${APP_GID} \
