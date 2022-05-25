@@ -51,7 +51,7 @@ EXPOSE ${PORT}
 USER ${APP_USER}
 
 HEALTHCHECK --interval=10s --timeout=3s CMD curl --silent --fail http://127.0.0.1:${PORT}/healthz || exit 1
-CMD ["./main"]
+ENTRYPOINT ["./main"]
 
 
 ## Distroless Version
@@ -74,4 +74,4 @@ CMD ["./main"]
 #
 ## copy compiled app
 #HEALTHCHECK --interval=10s --timeout=5s CMD curl -f http://127.0.0.1:${PORT}/healthz || exit 1
-#CMD ["./main"]
+#ENTRYPOINT ["./main"]
