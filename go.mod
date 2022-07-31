@@ -7,6 +7,7 @@ require (
 	github.com/didip/tollbooth v4.0.2+incompatible
 	github.com/gin-gonic/gin v1.7.7
 	github.com/go-sql-driver/mysql v1.6.0
+	github.com/golang-migrate/migrate/v4 v4.15.2
 	github.com/imroc/req/v3 v3.11.0
 	github.com/sirupsen/logrus v1.8.1
 	github.com/spf13/viper v1.11.0
@@ -51,7 +52,7 @@ require (
 	github.com/pelletier/go-toml v1.9.4 // indirect
 	github.com/pelletier/go-toml/v2 v2.0.0-beta.8 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
-	github.com/prometheus/procfs v0.0.0-20190425082905-87a4384529e0 // indirect
+	github.com/prometheus/procfs v0.7.3 // indirect
 	github.com/santhosh-tekuri/jsonschema v1.2.4 // indirect
 	github.com/spf13/afero v1.8.2 // indirect
 	github.com/spf13/cast v1.4.1 // indirect
@@ -63,13 +64,14 @@ require (
 	go.elastic.co/apm v1.15.0 // indirect
 	go.elastic.co/apm/module/apmhttp v1.15.0 // indirect
 	go.elastic.co/fastjson v1.1.0 // indirect
+	go.uber.org/atomic v1.7.0 // indirect
 	golang.org/x/crypto v0.0.0-20220411220226-7b82a4e95df4 // indirect
-	golang.org/x/lint v0.0.0-20201208152925-83fdc39ff7b5 // indirect
-	golang.org/x/mod v0.4.2 // indirect
+	golang.org/x/lint v0.0.0-20210508222113-6edffad5e616 // indirect
+	golang.org/x/mod v0.5.0 // indirect
 	golang.org/x/net v0.0.0-20220412020605-290c469a71a5 // indirect
 	golang.org/x/sys v0.0.0-20220412211240-33da011f77ad // indirect
 	golang.org/x/text v0.3.7 // indirect
-	golang.org/x/time v0.0.0-20191024005414-555d28b269f0 // indirect
+	golang.org/x/time v0.0.0-20220224211638-0e9765cccd65 // indirect
 	golang.org/x/tools v0.1.7 // indirect
 	golang.org/x/xerrors v0.0.0-20220411194840-2f41105eb62f // indirect
 	google.golang.org/protobuf v1.28.0 // indirect

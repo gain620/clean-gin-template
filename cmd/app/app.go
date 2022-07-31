@@ -1,4 +1,4 @@
-package main
+package app
 
 import (
 	"clean-gin-template/config"
@@ -6,7 +6,7 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-func main() {
+func Run() {
 	// configure application and run
 	cfg, err := config.NewConfig()
 	if err != nil {
